@@ -10,3 +10,4 @@ for that,
       store the trained model in "model.pickle"
   -> at Last, "Run testModel.py", this will get continuous stream of frames from webcam and 
       predict the gesture using "model.pickle" 
+
