@@ -1,6 +1,6 @@
 ### GesTer Version 1
 
-This repository contains code for a GesTer - version 1. Follow the steps below to set up and use the system:
+This repository contains code for GesTer - Version 1. Follow the steps below to set up and use the system:
 
 #### Setting up Dependencies
 After setting up the dependencies, follow the steps below to run the code.
