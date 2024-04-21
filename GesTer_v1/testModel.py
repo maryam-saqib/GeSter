@@ -16,8 +16,12 @@ folderPath='Presentation'
 pathImages=sorted(os.listdir(folderPath),key=len)
 print(pathImages)
 
+# Variables
 imgNum=0 # Image Number variable(will be used to move through slides)
 h_small,w_small=int(120*1),int(213*1) # height and width of small image
+gestureActivated=False
+gestureCounter=0
+gestureDelay=25
 
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
@@ -25,8 +29,8 @@ mp_drawing_styles = mp.solutions.drawing_styles
 
 hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
 
-labels_dict = {"one": 1,  "two": 2, "three": 3, "four": 4, "five": 5, "thumbsUP": 6,
-               "freak": 7, "fabulous": 8, "ooooo": 9, '9': 10}
+labels_dict = {"One": 1,  "Two": 2, "Three": 3, "Four": 4, "Five": 5, "ThumbsUp": 6,"Fabulous": 7}
+
 while True:
 
     data_aux = []
@@ -45,7 +49,7 @@ while True:
     imgCurr = cv2.resize(imgCurr, (frame.shape[1], frame.shape[0]))  # Resize slides image to match webcam frame size
 
     results = hands.process(frame_rgb)
-    if results.multi_hand_landmarks:
+    if results.multi_hand_landmarks and gestureActivated==False:
         for hand_landmarks in results.multi_hand_landmarks:
             mp_drawing.draw_landmarks(
                 frame,  # image to draw
@@ -83,12 +87,21 @@ while True:
                         cv2.LINE_AA)
             
             if predicted_character==5 and imgNum<len(pathImages)-1:
+                gestureActivated=True
                 imgNum+=1
             elif predicted_character==6 and imgNum>0:
+                gestureActivated=True
                 imgNum-=1
 
             print(predicted_character)
 
+
+    # gesture activated iterations
+    if gestureActivated:
+        gestureCounter+=1
+        if gestureCounter>gestureDelay:
+            gestureCounter=0
+            gestureActivated=False
 
     # Adding webcam on slides window
     imgSmall=cv2.resize(frame,(w_small,h_small))
